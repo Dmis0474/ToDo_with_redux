@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./layout.module.css";
 import Task from "../task/task";
 import Form from "../form/form";
-import { handleDelete, taskDone } from "../../redux/reducers/tasks";
+
 
 const Layout = () => {
   const [task, setTask] = useState("");
@@ -111,27 +111,7 @@ const Layout = () => {
       />
       <ul>
         {todos.map((item) => (
-          <li key={item.id}>
-            <div>
-              <p>Дата завершения:{item.deadline} </p>
-              <p
-                style={{
-                  textDecorationLine: item.isDone ? "line-through" : "",
-                }}
-              >
-                Задача: {item.title}
-                <button
-                  style={{ margin: "0 20px" }}
-                  onClick={() => dispatch(handleDelete(item.id))}
-                >
-                  Удалить
-                </button>
-                <button onClick={() => dispatch(taskDone(item.id))}>
-                  Выполнена
-                </button>
-              </p>
-            </div>
-          </li>
+          <Task key={item.id} item={item} />
         ))}
       </ul>
     </div>

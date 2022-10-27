@@ -1,6 +1,7 @@
 const ADD = "ADD";
 const DELETE = "DELETE";
 const DONE = "DONE";
+const EDIT = "EDIT"
 
 const initialState = {
   todos: [],
@@ -16,6 +17,7 @@ export default (state = initialState, action) => {
             title: action.title,
             isDelete: false,
             isDone: false,
+            isEdit: false,
             id: Math.random().toString(16).slice(2),
             deadline: action.deadline,
           },
@@ -33,6 +35,16 @@ export default (state = initialState, action) => {
         todos: state.todos.map((item) => {
           if (item.id === action.id) {
             return { ...item, isDone: !item.isDone };
+          }
+          return item;
+        }),
+      };
+      case EDIT:
+      return {
+        ...state,
+        todos: state.todos.map((item) => {
+          if (item.id === action.id) {
+            return { ...item, isEdit: !item.isEdit };
           }
           return item;
         }),
@@ -69,3 +81,12 @@ export const taskDone = (id) => {
     });
   };
 };
+
+export const editTasks = (id) => {
+    return (dispatch) => {
+      return dispatch({
+        type: EDIT,
+        id: id,
+      });
+    };
+  };

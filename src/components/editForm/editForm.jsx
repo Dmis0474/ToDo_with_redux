@@ -1,10 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { handleDelete, taskDone, editTasks } from "../../redux/reducers/tasks";
 
 const EditForm = (props) => {
+  const dispatch = useDispatch();
   return (
-    <div id={props.task.id}>
-      {props.editMode && props.task.id === props.edtiableTaskId ? (
-        <div id={props.task.id}>
+    <div id={props.item.id}>
+      {props.item.isEdit ? (
+        <div id={props.item.id}>
           <input
             type="date"
             defaultValue={props.dateNow}
@@ -13,19 +16,31 @@ const EditForm = (props) => {
           />
           <input
             type="text"
-            defaultValue={props.task.text}
-            key={props.task.id}
-            id={props.task.id}
-            title={props.task.text}
+            defaultValue={props.item.text}
+            key={props.item.id}
+            id={props.item.id}
+            title={props.item.text}
             onChange={props.inputListener}
           />
           <button onClick={props.editSubmit}>Сохранить</button>
         </div>
       ) : (
-        <div id={props.task.id}>
-          <button onClick={props.editTasks}>Редактировать</button>
-          <button onClick={props.taskDone}>Задача выполнена</button>
-          <button onClick={props.handleDelete}>Удалить</button>
+        <div id={props.item.id}>
+          <button
+          style={{ margin: "0 10px" }}
+          onClick={() => dispatch(handleDelete(props.item.id))}
+        >
+          Удалить
+        </button>
+        <button
+          style={{ margin: "0 10px" }}
+          onClick={() => dispatch(taskDone(props.item.id))}
+        >
+          Выполнена
+        </button>
+        <button onClick={() => dispatch(editTasks(props.item.id))}>
+          Редактировать
+        </button>
         </div>
       )}
     </div>
