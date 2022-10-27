@@ -1,134 +1,120 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./layout.module.css";
 import Task from "../task/task";
 import Form from "../form/form";
+import { handleDelete, handleSubmit, taskDone } from "../../redux/reducers/tasks";
 
 const Layout = () => {
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [editMode, setEditMode] = useState(false);
-  const [edtiableTaskId, setEdtiableTaskId] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [dateNow, setDateNow] = useState("");
-  const [taskDoneStyle, setTaskDoneStyle] = useState(false);
 
-  const [editDateValue, setEditDateValue] = useState("");
-  useEffect(() => {
-    getDates();
-  }, []);
+  const todos = useSelector((store) => store.tasks.todos);
+  const dispatch = useDispatch()
+  console.log(todos);
+  // const [tasks, setTasks] = useState([]);
+  // const [inputValue, setInputValue] = useState("");
+  // const [editMode, setEditMode] = useState(false);
+  // const [edtiableTaskId, setEdtiableTaskId] = useState("");
+  // const [deadline, setDeadline] = useState("");
+  // const [dateNow, setDateNow] = useState("");
 
-  const getDates = () => {
-    setDateNow(
-      `${new Date().getFullYear()}-${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}`
-    );
-  };
+  // const [editDateValue, setEditDateValue] = useState("");
+  // useEffect(() => {
+  //   getDates();
+  // }, []);
+
+  // const getDates = () => {
+  //   setDateNow(
+  //     `${new Date().getFullYear()}-${
+  //       new Date().getMonth() + 1
+  //     }-${new Date().getDate()}`
+  //   );
+  // };
 
   const handleChange = (e) => {
     setTask(e.target.value);
   };
 
-  const handleDelete = (e) => {
-    setTasks(
-      tasks.filter((task) => task.id !== e.target.parentNode.getAttribute("id"))
-    );
-  };
-
-  const taskDone = (e) => {
-    const modifiedTasks = tasks.map((task) =>
-      task.id === e.target.parentNode.getAttribute("id")
-        ? { ...task, done: true }
-        : { ...task }
-    );
-    setTasks([...modifiedTasks]);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (task) {
-      const generatedId = Math.random().toString(16).slice(2);
-      const newTask = {
-        id: generatedId,
-        text: task,
-        deadline: deadline,
-        done: false,
-      };
-      setTasks([...tasks, newTask]);
-    }
+  const cleanInput = () => {
     setTask("");
-    setDeadline("");
   };
 
-  const editSubmit = (e) => {
-    const editedTasks = tasks.map((task) =>
-      task.id === e.target.parentNode.getAttribute("id")
-        ? {
-            ...task,
-            text: inputValue || task.text,
-            deadline: editDateValue || task.deadline,
-          }
-        : { ...task }
-    );
-    setTasks(editedTasks);
-    setEditMode(false);
-    console.log(tasks);
-  };
+  
 
-  const editTasks = (e) => {
-    setEditMode(!editMode);
-    setEdtiableTaskId(e.target.parentNode.getAttribute("id"));
-    console.log(tasks);
-  };
+  // const taskDone = (e) => {
+  //   const modifiedTasks = tasks.map((task) =>
+  //     task.id === e.target.parentNode.getAttribute("id")
+  //       ? { ...task, done: true }
+  //       : { ...task }
+  //   );
+  //   setTasks([...modifiedTasks]);
+  // };
 
-  const inputListener = (event) => {
-    setInputValue(event.target.value);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (task) {
+  //     const generatedId = Math.random().toString(16).slice(2);
+  //     const newTask = {
+  //       id: generatedId,
+  //       text: task,
+  //       deadline: deadline,
+  //       done: false,
+  //     };
+  //     setTasks([...tasks, newTask]);
+  //   }
+  //   setTask("");
+  //   setDeadline("");
+  // };
 
-  const dateListener = (e) => {
-    setDeadline(e.target.value.split("-").reverse().join("-"));
-  };
+  // const editSubmit = (e) => {
+  //   const editedTasks = tasks.map((task) =>
+  //     task.id === e.target.parentNode.getAttribute("id")
+  //       ? {
+  //           ...task,
+  //           text: inputValue || task.text,
+  //           deadline: editDateValue || task.deadline,
+  //         }
+  //       : { ...task }
+  //   );
+  //   setTasks(editedTasks);
+  //   setEditMode(false);
+  //   console.log(tasks);
+  // };
 
-  const editDateListener = (event) => {
-    setEditDateValue(event.target.value.split("-").reverse().join("-"));
-    console.log(`11111:${editDateValue}`);
-  };
+  // const editTasks = (e) => {
+  //   setEditMode(!editMode);
+  //   setEdtiableTaskId(e.target.parentNode.getAttribute("id"));
+  //   console.log(tasks);
+  // };
+
+  // const inputListener = (event) => {
+  //   setInputValue(event.target.value);
+  // };
+
+  // const dateListener = (e) => {
+  //   setDeadline(e.target.value.split("-").reverse().join("-"));
+  // };
+
+  // const editDateListener = (event) => {
+  //   setEditDateValue(event.target.value.split("-").reverse().join("-"));
+  //   console.log(`11111:${editDateValue}`);
+  // };
 
   return (
     <div>
       <h3>Введите следующее запланированное действие:</h3>
-      <Form
-        dateNow={dateNow}
-        deadline={deadline}
-        updateTask={false}
-        task={task}
-        key={task.id}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        dateListener={dateListener}
-      />
+      <Form task={task} handleChange={handleChange} cleanInput={cleanInput} />
 
-      <div>
-        {tasks.map((task, i) => {
-          return (
-            <Task
-              task={task}
-              key={task.text + i}
-              editMode={editMode}
-              edtiableTaskId={edtiableTaskId}
-              handleDelete={handleDelete}
-              taskDone={taskDone}
-              editSubmit={editSubmit}
-              editTasks={editTasks}
-              inputListener={inputListener}
-              dateListener={dateListener}
-              dateNow={dateNow}
-              editDateListener={editDateListener}
-            />
-          );
-        })}
-      </div>
+      {todos.map((item) => (
+        <ul>
+          <li key={item.id}>
+          <p style={{textDecorationLine: item.isDone ? "line-through" : ''}}>{item.title}</p>
+          <button style={{margin:'0 20px'}} onClick={()=>dispatch(handleDelete(item.id))}>Удалить</button>
+          <button style={{margin:'0 px'}} onClick={()=>dispatch(taskDone(item.id))}>Выполнена</button>
+          </li>
+        </ul>
+        
+      ))}
     </div>
   );
 };
