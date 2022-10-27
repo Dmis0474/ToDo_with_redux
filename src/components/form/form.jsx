@@ -12,11 +12,17 @@ const Form = (props) => {
 
   return (
     <form
-    // className={styles.form}
-    // onSubmit={props.handleSubmit}
-    // onKeyDown={(e) => {
-    //   if (e.key === "Enter") props.handleSubmit(e);
-    // }}
+      className={styles.form}
+      onSubmit={() => {
+        dispatch(handleSubmit(props.task));
+        props.cleanInput();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          dispatch(handleSubmit(props.task));
+          props.cleanInput();
+        }
+      }}
     >
       <textarea
         name="task"
@@ -24,18 +30,20 @@ const Form = (props) => {
         placeholder="Введите следующее дело..."
         onChange={props.handleChange}
       ></textarea>
-      {/* <h4 style={{ margin: 0 }}>Дата завершения</h4>
-          <input
-            type="date"
-            defaultValue={props.dateNow}
-            onChange={props.dateListener}
-            min={props.dateNow}
-          /> */}
+      <h4 style={{ margin: 0 }}>Дата завершения</h4>
+      <input
+        type="date"
+        defaultValue={props.dateNow}
+        onChange={props.dateListener}
+        min={props.dateNow}
+      />
       <button
         type="button"
         onClick={() => {
-          dispatch(handleSubmit(props.task));
-          props.cleanInput()
+          dispatch(handleSubmit(props.task, props.deadline));
+          console.log(props.task);
+          console.log(props.deadline);
+          props.cleanInput();
         }}
       >
         Добавить дело!

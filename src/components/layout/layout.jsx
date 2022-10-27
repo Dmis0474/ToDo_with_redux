@@ -3,43 +3,45 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./layout.module.css";
 import Task from "../task/task";
 import Form from "../form/form";
-import { handleDelete, handleSubmit, taskDone } from "../../redux/reducers/tasks";
+import { handleDelete, taskDone } from "../../redux/reducers/tasks";
 
 const Layout = () => {
   const [task, setTask] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [dateNow, setDateNow] = useState("");
 
   const todos = useSelector((store) => store.tasks.todos);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   console.log(todos);
   // const [tasks, setTasks] = useState([]);
   // const [inputValue, setInputValue] = useState("");
   // const [editMode, setEditMode] = useState(false);
   // const [edtiableTaskId, setEdtiableTaskId] = useState("");
-  // const [deadline, setDeadline] = useState("");
-  // const [dateNow, setDateNow] = useState("");
-
   // const [editDateValue, setEditDateValue] = useState("");
-  // useEffect(() => {
-  //   getDates();
-  // }, []);
 
-  // const getDates = () => {
-  //   setDateNow(
-  //     `${new Date().getFullYear()}-${
-  //       new Date().getMonth() + 1
-  //     }-${new Date().getDate()}`
-  //   );
-  // };
+  useEffect(() => {
+    getDates();
+  }, []);
+
+  const getDates = () => {
+    setDateNow(
+      `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`
+    );
+  };
 
   const handleChange = (e) => {
     setTask(e.target.value);
   };
 
+  const dateListener = (e) => {
+    setDeadline(e.target.value.split("-").reverse().join("-"));
+  };
+
   const cleanInput = () => {
     setTask("");
   };
-
-  
 
   // const taskDone = (e) => {
   //   const modifiedTasks = tasks.map((task) =>
@@ -91,10 +93,6 @@ const Layout = () => {
   //   setInputValue(event.target.value);
   // };
 
-  // const dateListener = (e) => {
-  //   setDeadline(e.target.value.split("-").reverse().join("-"));
-  // };
-
   // const editDateListener = (event) => {
   //   setEditDateValue(event.target.value.split("-").reverse().join("-"));
   //   console.log(`11111:${editDateValue}`);
@@ -103,18 +101,39 @@ const Layout = () => {
   return (
     <div>
       <h3>Введите следующее запланированное действие:</h3>
-      <Form task={task} handleChange={handleChange} cleanInput={cleanInput} />
-
-      {todos.map((item) => (
-        <ul>
+      <Form
+        task={task}
+        deadline={deadline}
+        handleChange={handleChange}
+        cleanInput={cleanInput}
+        dateListener={dateListener}
+        dateNow={dateNow}
+      />
+      <ul>
+        {todos.map((item) => (
           <li key={item.id}>
-          <p style={{textDecorationLine: item.isDone ? "line-through" : ''}}>{item.title}</p>
-          <button style={{margin:'0 20px'}} onClick={()=>dispatch(handleDelete(item.id))}>Удалить</button>
-          <button style={{margin:'0 px'}} onClick={()=>dispatch(taskDone(item.id))}>Выполнена</button>
+            <div>
+              <p>Дата завершения:{item.deadline} </p>
+              <p
+                style={{
+                  textDecorationLine: item.isDone ? "line-through" : "",
+                }}
+              >
+                Задача: {item.title}
+                <button
+                  style={{ margin: "0 20px" }}
+                  onClick={() => dispatch(handleDelete(item.id))}
+                >
+                  Удалить
+                </button>
+                <button onClick={() => dispatch(taskDone(item.id))}>
+                  Выполнена
+                </button>
+              </p>
+            </div>
           </li>
-        </ul>
-        
-      ))}
+        ))}
+      </ul>
     </div>
   );
 };
