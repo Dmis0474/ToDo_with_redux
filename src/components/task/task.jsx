@@ -1,5 +1,4 @@
 import React from "react";
-import Form from "../form/form";
 import EditForm from "../editForm/editForm";
 
 const Task = (props) => {
@@ -13,31 +12,16 @@ const Task = (props) => {
       >
         Задача: {props.item.title}
       </p>
-      <EditForm item={props.item} />
-    </div>
-  );
-};
-{
-  /* : (
-        <p>Задача: {props.task.text}</p>
-      )}
-      <Form
-        updateTask={true}
-        task={props.task}
-        key={props.task.id}
-        editMode={props.editMode}
-        editTasks={props.editTasks}
-        inputListener={props.inputListener}
-        edtiableTaskId={props.edtiableTaskId}
-        editSubmit={props.editSubmit}
-        taskDone={props.taskDone}
-        handleDelete={props.handleDelete}
+      <EditForm
         dateNow={props.dateNow}
+        item={props.item}
+        inputListener={props.inputListener}
         editDateListener={props.editDateListener}
+        inputValue={props.inputValue}
+        editDateValue={props.editDateValue}
       />
     </div>
   );
-}; */
-}
+};
 
 export default Task;

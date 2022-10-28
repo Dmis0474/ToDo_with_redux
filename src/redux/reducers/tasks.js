@@ -1,7 +1,8 @@
 const ADD = "ADD";
 const DELETE = "DELETE";
 const DONE = "DONE";
-const EDIT = "EDIT"
+const EDIT = "EDIT";
+const EDIT_SUBMIT = "EDIT_SUBMIT";
 
 const initialState = {
   todos: [],
@@ -14,12 +15,16 @@ export default (state = initialState, action) => {
         todos: [
           ...state.todos,
           {
-            title: action.title,
+            title: action.title.length
+              ? action.title
+              : (action.title = "дата не задана"),
             isDelete: false,
             isDone: false,
             isEdit: false,
             id: Math.random().toString(16).slice(2),
-            deadline: action.deadline,
+            deadline: action.deadline.length
+              ? action.deadline
+              : (action.deadline = "задача не вписана"),
           },
         ],
       };
@@ -39,12 +44,30 @@ export default (state = initialState, action) => {
           return item;
         }),
       };
-      case EDIT:
+    case EDIT:
       return {
         ...state,
         todos: state.todos.map((item) => {
           if (item.id === action.id) {
             return { ...item, isEdit: !item.isEdit };
+          }
+          return item;
+        }),
+      };
+    case EDIT_SUBMIT:
+      return {
+        ...state,
+        todos: state.todos.map((item) => {
+          if (item.isEdit) {
+            return {
+              ...item,
+              title: action.title,
+              isDelete: false,
+              isDone: false,
+              isEdit: false,
+              id: Math.random().toString(16).slice(2),
+              deadline: action.deadline,
+            };
           }
           return item;
         }),
@@ -83,10 +106,21 @@ export const taskDone = (id) => {
 };
 
 export const editTasks = (id) => {
-    return (dispatch) => {
-      return dispatch({
-        type: EDIT,
-        id: id,
-      });
-    };
+  return (dispatch) => {
+    return dispatch({
+      type: EDIT,
+      id: id,
+    });
   };
+};
+
+export const editSubmit = (isEdit, inputValue, editDateValue) => {
+  return (dispatch) => {
+    return dispatch({
+      type: EDIT_SUBMIT,
+      isEdit: isEdit,
+      title: inputValue,
+      deadline: editDateValue,
+    });
+  };
+};

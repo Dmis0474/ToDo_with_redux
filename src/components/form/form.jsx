@@ -1,14 +1,10 @@
 import React from "react";
-
-import EditForm from "../editForm/editForm";
 import styles from "./form.module.css";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleSubmit } from "../../redux/reducers/tasks";
 
 const Form = (props) => {
   const dispatch = useDispatch();
-  const todos = useSelector((store) => store.tasks.todos);
 
   return (
     <form
