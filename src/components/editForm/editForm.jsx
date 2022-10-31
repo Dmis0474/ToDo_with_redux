@@ -5,7 +5,7 @@ import {
   taskDone,
   editTasks,
   editSubmit,
-} from "../../redux/reducers/tasks";
+} from "../../redux/actions/actionCreators";
 
 const EditForm = (props) => {
   const dispatch = useDispatch();
@@ -14,17 +14,19 @@ const EditForm = (props) => {
       {props.item.isEdit ? (
         <div id={props.item.id}>
           <input
+            required
             type="date"
             defaultValue={props.dateNow}
             onChange={props.editDateListener}
             min={props.dateNow}
           />
           <input
+            required
             type="text"
-            defaultValue={props.item.title}
+            defaultValue={props.item.text}
             key={props.item.id}
             id={props.item.id}
-            title={props.item.text}
+            text={props.item.text}
             onChange={props.inputListener}
           />
           <button

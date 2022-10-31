@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./form.module.css";
 import { useDispatch } from "react-redux";
-import { handleSubmit } from "../../redux/reducers/tasks";
+import { handleSubmit } from "../../redux/actions/actionCreators";
 
 const Form = (props) => {
   const dispatch = useDispatch();
@@ -9,41 +9,32 @@ const Form = (props) => {
   return (
     <form
       className={styles.form}
-      onSubmit={() => {
-        dispatch(handleSubmit(props.task));
+      onSubmit={(event) => {
+        dispatch(handleSubmit(props.task, props.deadline, event));
+        props.cleanInput();
+        if (event.key === "Enter")
+        dispatch(handleSubmit(props.task, props.deadline));
         props.cleanInput();
       }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          dispatch(handleSubmit(props.task));
-          props.cleanInput();
-        }
-      }}
+      
     >
       <textarea
         name="task"
         value={props.task}
         placeholder="Введите следующее дело..."
         onChange={props.handleChange}
+        required
       ></textarea>
       <h4 style={{ margin: 0 }}>Дата завершения</h4>
       <input
+        name="forDate"
         type="date"
         defaultValue={props.dateNow}
         onChange={props.dateListener}
         min={props.dateNow}
+        required
       />
-      <button
-        type="button"
-        onClick={() => {
-          dispatch(handleSubmit(props.task, props.deadline));
-          console.log(props.task);
-          console.log(props.deadline);
-          props.cleanInput();
-        }}
-      >
-        Добавить дело!
-      </button>
+      <button>Добавить дело!</button>
     </form>
   );
 };

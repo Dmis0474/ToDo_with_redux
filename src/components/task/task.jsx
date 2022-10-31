@@ -10,7 +10,7 @@ const Task = (props) => {
           textDecorationLine: props.item.isDone ? "line-through" : "",
         }}
       >
-        Задача: {props.item.title}
+        Задача: {props.item.text}
       </p>
       <EditForm
         dateNow={props.dateNow}

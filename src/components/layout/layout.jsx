@@ -18,10 +18,13 @@ const Layout = () => {
   }, []);
 
   const getDates = () => {
+    let day =
+      new Date().getDate().length > 1
+        ? new Date().getDate()
+        : `0${new Date().getDate()}`;
+    console.log(day);
     setDateNow(
-      `${new Date().getFullYear()}-${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}`
+      `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${day}`
     );
   };
 
