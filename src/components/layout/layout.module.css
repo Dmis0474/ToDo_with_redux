@@ -1,0 +1,11 @@
+.layout{
+    background-color: rgb(245, 239, 239);
+    position: absolute;
+    top: 40px;
+    bottom: 20%;
+    box-shadow: 5px 5px 155px  rgb(54, 116, 187);
+}
+
+ul {
+    margin-top: 80px;
+}

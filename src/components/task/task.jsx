@@ -1,17 +1,18 @@
 import React from "react";
 import EditForm from "../editForm/editForm";
+import style from "../task/task.module.css"
 
 const Task = (props) => {
   return (
-    <div id={props.item.id}>
-      <p>Дата завершения:{props.item.deadline} </p>
-      <p
+    <div id={props.item.id} className={style.task}>
+      <div className={style.info}>
+        <h4 className={style.taskText}
         style={{
           textDecorationLine: props.item.isDone ? "line-through" : "",
         }}
-      >
-        Задача: {props.item.text}
-      </p>
+        >{props.item.text}</h4>
+        <h5 className={style.taskDate}>{props.item.deadline} </h5>
+      </div>
       <EditForm
         dateNow={props.dateNow}
         item={props.item}

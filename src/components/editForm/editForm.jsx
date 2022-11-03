@@ -6,6 +6,7 @@ import {
   editTasks,
   editSubmit,
 } from "../../redux/actions/actionCreators";
+import styles from "../editForm/editForm.module.css";
 
 const EditForm = (props) => {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ const EditForm = (props) => {
           <input
             required
             type="date"
-            defaultValue={props.dateNow}
             onChange={props.editDateListener}
             min={props.dateNow}
           />
@@ -44,22 +44,19 @@ const EditForm = (props) => {
           </button>
         </div>
       ) : (
-        <div id={props.item.id}>
+        <div id={props.item.id} className={styles.buttonsWrapper}>
           <button
-            style={{ margin: "0 10px" }}
             onClick={() => dispatch(handleDelete(props.item.id))}
-          >
-            Удалить
-          </button>
+            className={styles.delete}
+          ></button>
           <button
-            style={{ margin: "0 10px" }}
             onClick={() => dispatch(taskDone(props.item.id))}
-          >
-            Выполнена
-          </button>
-          <button onClick={() => dispatch(editTasks(props.item.id))}>
-            Редактировать
-          </button>
+            className={styles.done}
+          ></button>
+          <button
+            onClick={() => dispatch(editTasks(props.item.id))}
+            className={styles.edit}
+          ></button>
         </div>
       )}
     </div>

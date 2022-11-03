@@ -1,0 +1,47 @@
+.buttonsWrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 100px;
+}
+
+.delete {
+  background: url(../../img/basket.png) 50% 50% no-repeat;
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  border: none;
+  position: absolute;
+  right: 10px;
+  bottom: -17px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.done {
+    background: url(../../img/done.png) 50% 50% no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: absolute;
+    right: 50px;
+    bottom: -17px;
+    background-color: white;
+    border-radius: 50%; 
+}
+.edit {
+    background: url(../../img/edit.png) 50% 50% no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: absolute;
+    right: 90px;
+    bottom: -17px;
+    background-color: white;
+    border-radius: 50%; 
+}

@@ -49,8 +49,8 @@ const Layout = () => {
   };
 
   return (
-    <div>
-      <h3>Введите следующее запланированное действие:</h3>
+    <div className={styles.layout}>
+      
       <Form
         task={task}
         deadline={deadline}
