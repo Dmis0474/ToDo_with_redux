@@ -1,6 +1,6 @@
 import actionNames from "../actions/actionNames";
 
-export const handleSubmit = (text, deadline, event) => {
+export const handleSubmit = (text, deadline, tasksNow, event) => {
   event.preventDefault();
   if (text && deadline) {
     return (dispatch) => {
@@ -8,6 +8,7 @@ export const handleSubmit = (text, deadline, event) => {
         type: actionNames.ADD,
         text: text,
         deadline: deadline,
+        tasksNow: tasksNow
       });
     };
   } else {

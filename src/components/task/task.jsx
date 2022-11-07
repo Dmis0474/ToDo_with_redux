@@ -14,6 +14,8 @@ const Task = (props) => {
         <h5 className={style.taskDate}>{props.item.deadline} </h5>
       </div>
       <EditForm
+        increaseTaskDone={props.increaseTaskDone}
+        reduceTaskNow={props.reduceTaskNow}
         dateNow={props.dateNow}
         item={props.item}
         inputListener={props.inputListener}

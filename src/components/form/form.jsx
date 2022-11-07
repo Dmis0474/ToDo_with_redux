@@ -10,11 +10,13 @@ const Form = (props) => {
     <form
       className={styles.form}
       onSubmit={(event) => {
-        dispatch(handleSubmit(props.task, props.deadline, event));
+        dispatch(handleSubmit(props.task, props.deadline, props.tasksNow, event));
         props.cleanInput();
+        props.increaseTaskNow()
         if (event.key === "Enter")
-          dispatch(handleSubmit(props.task, props.deadline));
+          dispatch(handleSubmit(props.task, props.deadline, props.tasksNow));
         props.cleanInput();
+        props.increaseTaskNow()
       }}
     >
       <div className={styles.taskWrapper}>
@@ -26,8 +28,14 @@ const Form = (props) => {
         
       </div>
       <div className={styles.taskCounter}>
-        <h2>24</h2>
-        <h2>15</h2>
+        <div>
+        <h2>{props.tasksNow}</h2>
+        <p>done</p>
+        </div>
+        <div>
+        <h2>{props.tasksDone}</h2>
+        <p>done</p>
+        </div>
       </div>
       <div className={styles.taskArea}>
           <div className={styles.inputWrapper}>
@@ -38,6 +46,7 @@ const Form = (props) => {
               placeholder="Введите следующее дело..."
               onChange={props.handleChange}
               required
+              className={styles.taskInput}
             ></textarea>
           </div>
           <div className={styles.inputWrapper}>
@@ -49,6 +58,7 @@ const Form = (props) => {
               onChange={props.dateListener}
               min={props.dateNow}
               required
+              className={styles.taskInput}
             />
           </div>
           <img src="" />

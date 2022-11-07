@@ -1,3 +1,5 @@
+
+
 .buttonsWrapper {
   position: absolute;
   bottom: 0;
@@ -6,6 +8,15 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 100px;
+}
+
+.inputWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 50px;
+    bottom: 5px;
+    gap: 2px;
 }
 
 .delete {
@@ -44,4 +55,16 @@
     bottom: -17px;
     background-color: white;
     border-radius: 50%; 
+}
+.save {
+    background: url(../../img/save.png) 50% 50% no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: absolute;
+    right: 10px;
+    bottom: -17px;
+    background-color: white;
+    border-radius: 50%;  
 }

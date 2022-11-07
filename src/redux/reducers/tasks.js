@@ -23,7 +23,8 @@ export default (state = initialState, action) => {
             isDone: false,
             isEdit: false,
             id: Math.random().toString(16).slice(2),
-            deadline: action.deadline
+            deadline: action.deadline,
+            tasksNow: action.tasksNow
           },
         ],
       };

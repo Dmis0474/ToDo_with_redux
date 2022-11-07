@@ -7,6 +7,8 @@ import Form from "../form/form";
 const Layout = () => {
   const [task, setTask] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [tasksNow, setTasksNow] = useState(0);
+  const [tasksDone, setTasksDone] = useState(0);
   const [dateNow, setDateNow] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [editDateValue, setEditDateValue] = useState("");
@@ -32,6 +34,18 @@ const Layout = () => {
     setTask(e.target.value);
   };
 
+  const increaseTaskDone = () => {
+    setTasksDone(tasksDone+1)
+  }
+
+  const reduceTaskNow = () => {
+    setTasksNow(tasksNow-1)
+  }
+
+  const increaseTaskNow = () => {
+    setTasksNow(tasksNow+1)
+  }
+
   const dateListener = (e) => {
     setDeadline(e.target.value.split("-").reverse().join("-"));
   };
@@ -54,14 +68,18 @@ const Layout = () => {
       <Form
         task={task}
         deadline={deadline}
+        tasksNow={tasksNow}
+        tasksDone={tasksDone}
         handleChange={handleChange}
         cleanInput={cleanInput}
+        increaseTaskNow={increaseTaskNow}
+        
         dateListener={dateListener}
         dateNow={dateNow}
       />
-      <ul>
+      <ul className={styles.tasksList}>
         {todos.map((item) => (
-          <Task
+         <li><Task
             dateNow={dateNow}
             key={item.id}
             item={item}
@@ -69,7 +87,10 @@ const Layout = () => {
             editDateValue={editDateValue}
             inputListener={inputListener}
             editDateListener={editDateListener}
+            increaseTaskDone={increaseTaskDone}
+            reduceTaskNow={reduceTaskNow}
           />
+          </li> 
         ))}
       </ul>
     </div>

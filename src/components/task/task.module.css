@@ -4,9 +4,12 @@
   position: relative;
 }
 
+
+
 .info {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .taskText {

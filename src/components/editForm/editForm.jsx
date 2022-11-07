@@ -14,21 +14,25 @@ const EditForm = (props) => {
     <div id={props.item.id}>
       {props.item.isEdit ? (
         <div id={props.item.id}>
-          <input
-            required
-            type="date"
-            onChange={props.editDateListener}
-            min={props.dateNow}
-          />
-          <input
-            required
-            type="text"
-            defaultValue={props.item.text}
-            key={props.item.id}
-            id={props.item.id}
-            text={props.item.text}
-            onChange={props.inputListener}
-          />
+          <div className={styles.inputWrapper}>
+            <input
+              required
+              type="text"
+              defaultValue={props.item.text}
+              key={props.item.id}
+              id={props.item.id}
+              text={props.item.text}
+              onChange={props.inputListener}
+            />
+            <input
+              required
+              type="date"
+              defaultValue={props.dateNow}
+              onChange={props.editDateListener}
+              min={props.dateNow}
+            />
+          </div>
+
           <button
             onClick={() =>
               dispatch(
@@ -39,14 +43,15 @@ const EditForm = (props) => {
                 )
               )
             }
-          >
-            Сохранить
-          </button>
+            className={styles.save}
+          ></button>
         </div>
       ) : (
         <div id={props.item.id} className={styles.buttonsWrapper}>
           <button
-            onClick={() => dispatch(handleDelete(props.item.id))}
+            onClick={() =>
+              dispatch(handleDelete(props.item.id), props.increaseTaskDone(), props.reduceTaskNow())
+            }
             className={styles.delete}
           ></button>
           <button
