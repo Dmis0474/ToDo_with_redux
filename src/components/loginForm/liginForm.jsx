@@ -1,11 +1,10 @@
 import React from "react";
-import styles from "./registrationForm.module.css";
+import styles from "./loginForm.module.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
-const RegistrationForm = (props) => {
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
@@ -24,28 +23,18 @@ const RegistrationForm = (props) => {
     }
   }, [emailError, passwordError]);
 
-  useEffect(() => {
-    const apiUrl = "http://localhost:3500/";
-    fetch(apiUrl).then((response) => console.log(response));
-  }, []);
-
-  const sendData = (email, password, e) => {
+  const authUser = (email, password, e) => {
     console.log("email, pass", email, password);
     e.preventDefault();
-    fetch("http://localhost:3500/register", {
-        method: 'POST',
-        body: JSON.stringify({ user: email, pwd: password }),
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true
-    }
-    )
+    fetch("http://localhost:3500/auth", {
+      method: "POST",
+      body: JSON.stringify({ user: email, pwd: password }),
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
       .then((response) => response.json())
       .then((response) => console.log(response));
   };
-
-  function getData(e) {
-    e.preventDefault();
-  }
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -86,12 +75,12 @@ const RegistrationForm = (props) => {
       <h2 className={styles.header}>Add new things</h2>
       <img src="deals.png" alt="" className={styles.img} />
       <div className={styles.inputWrapper}>
-        <input
+        {/* <input
           type="text"
           placeholder="login"
           className={styles.registrationInput}
         />
-        {emailError && emailDirty && <div>{emailError}</div>}
+        {emailError && emailDirty && <div>{emailError}</div>} */}
         <input
           value={email}
           type="email"
@@ -111,7 +100,7 @@ const RegistrationForm = (props) => {
           onBlur={(e) => blurHandler(e)}
           onChange={(e) => passwordHandler(e)}
         />
-        <input
+        {/* <input
           type="text"
           placeholder="place"
           className={styles.registrationInput}
@@ -120,17 +109,17 @@ const RegistrationForm = (props) => {
           type="text"
           placeholder="time"
           className={styles.registrationInput}
-        />
+        /> */}
       </div>
       <button
         className={styles.registrationButton}
         disabled={!formValid}
-        onClick={(e) => sendData(email, password, e)}
+        onClick={(e) => authUser(email, password, e)}
       >
-        Registr
+        Login
       </button>
     </form>
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;
