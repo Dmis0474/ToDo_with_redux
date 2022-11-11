@@ -81,25 +81,34 @@ const LoginForm = (props) => {
           className={styles.registrationInput}
         />
         {emailError && emailDirty && <div>{emailError}</div>} */}
-        <input
-          value={email}
-          type="email"
-          name="email"
-          placeholder="email@gmail.com"
-          className={styles.registrationInput}
-          onBlur={(e) => blurHandler(e)}
-          onChange={(e) => emailHandler(e)}
-        />
-        {passwordError && passwordDirty && <div>{passwordError}</div>}
-        <input
-          value={password}
-          type="password"
-          name="password"
-          placeholder="password"
-          className={styles.registrationInput}
-          onBlur={(e) => blurHandler(e)}
-          onChange={(e) => passwordHandler(e)}
-        />
+        <div className={styles.emailWrapper}>
+          <input
+            value={email}
+            type="email"
+            name="email"
+            placeholder="email@gmail.com"
+            className={styles.registrationInput}
+            onBlur={(e) => blurHandler(e)}
+            onChange={(e) => emailHandler(e)}
+          />
+          {emailError && emailDirty && (
+            <div className={styles.error}>{emailError}</div>
+          )}
+        </div>
+        <div className={styles.emailWrapper}>
+          <input
+            value={password}
+            type="password"
+            name="password"
+            placeholder="password"
+            className={styles.registrationInput}
+            onBlur={(e) => blurHandler(e)}
+            onChange={(e) => passwordHandler(e)}
+          />
+          {passwordError && passwordDirty && (
+            <div className={styles.error}>{passwordError}</div>
+          )}
+        </div>
         {/* <input
           type="text"
           placeholder="place"
@@ -118,6 +127,7 @@ const LoginForm = (props) => {
       >
         Login
       </button>
+      <a className={styles.switchButton} onClick={props.showRegistrationForm}>Registration</a>
     </form>
   );
 };

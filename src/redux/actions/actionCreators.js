@@ -2,18 +2,14 @@ import actionNames from "../actions/actionNames";
 
 export const handleSubmit = (text, deadline, tasksNow, event) => {
   event.preventDefault();
-  if (text && deadline) {
-    return (dispatch) => {
-      return dispatch({
-        type: actionNames.ADD,
-        text: text,
-        deadline: deadline,
-        tasksNow: tasksNow
-      });
-    };
-  } else {
-    alert(`Заполните поля "задача" и "дата завершения" `);
-  }
+  return (dispatch) => {
+    return dispatch({
+      type: actionNames.ADD,
+      text: text,
+      deadline: deadline,
+      tasksNow: tasksNow,
+    });
+  };
 };
 
 export const handleDelete = (id) => {
@@ -56,4 +52,24 @@ export const editSubmit = (isEdit, inputValue, editDateValue) => {
   } else {
     alert(`Заполните поля "задача" и "дата завершения" `);
   }
+};
+
+export const handleSort = (sortMethod, text, deadline) => {
+  return (dispatch) => {
+    return dispatch({
+      type: actionNames.SORT,
+      sortMethod: sortMethod,
+      text: text,
+      deadline:deadline
+    });
+  };
+};
+
+export const searchItem = (searchPhrase) => {
+  return (dispatch) => {
+    return dispatch({
+      type: actionNames.SEARCH,
+      searchPhrase: searchPhrase
+    });
+  };
 };

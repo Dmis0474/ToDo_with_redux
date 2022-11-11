@@ -12,6 +12,7 @@ const Layout = () => {
   const [dateNow, setDateNow] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [editDateValue, setEditDateValue] = useState("");
+  
 
   const todos = useSelector((store) => store.tasks.todos);
 
@@ -21,9 +22,9 @@ const Layout = () => {
 
   const getDates = () => {
     let day =
-      new Date().getDate().length > 1
-        ? new Date().getDate()
-        : `0${new Date().getDate()}`;
+      new Date().getDate() <= 9
+        ? `0${new Date().getDate()}`
+        : new Date().getDate();
     console.log(day);
     setDateNow(
       `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${day}`
@@ -79,9 +80,8 @@ const Layout = () => {
       />
       <ul className={styles.tasksList}>
         {todos.map((item) => (
-         <li><Task
+         <li key={item.id}><Task
             dateNow={dateNow}
-            key={item.id}
             item={item}
             inputValue={inputValue}
             editDateValue={editDateValue}

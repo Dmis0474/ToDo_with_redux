@@ -35,6 +35,7 @@ border: none;
 border-bottom: 1px solid rgb(255, 255, 255);
 color: white;
 outline: none;
+width: 100%;
 }
 
 .registrationInput:focus {
@@ -64,3 +65,41 @@ outline: none;
     cursor: pointer;
     margin-top: 10px;
 }
+
+.switchButton{
+    font-family: "Montserrat";
+    font-weight: 400;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.emailWrapper{
+    position: relative;
+    width: 100%;
+}
+.error {
+    position: absolute;
+    width: 250px;
+    padding: 20px 1px 10px 10px;
+    background-image: url("../../img/messageBackground.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-family: "Montserrat";
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+    z-index: 1;
+    top: 16px
+  }
+
+.switchButton {
+  font-family: "Montserrat";
+  font-weight: 400;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+

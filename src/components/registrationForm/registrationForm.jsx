@@ -4,15 +4,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
 const RegistrationForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
-  const [emailError, setEmailError] = useState("Email не может бть пустым");
+  const [emailError, setEmailError] = useState("Email не может быть пустым");
   const [passwordError, setPasswordError] = useState(
-    "пароль не может быть пустым"
+    "Пароль не может быть пустым"
   );
   const [formValid, setFormValid] = useState(false);
 
@@ -33,12 +32,11 @@ const RegistrationForm = (props) => {
     console.log("email, pass", email, password);
     e.preventDefault();
     fetch("http://localhost:3500/register", {
-        method: 'POST',
-        body: JSON.stringify({ user: email, pwd: password }),
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true
-    }
-    )
+      method: "POST",
+      body: JSON.stringify({ user: email, pwd: password }),
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
       .then((response) => response.json())
       .then((response) => console.log(response));
   };
@@ -61,9 +59,9 @@ const RegistrationForm = (props) => {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError("пароль должен содержать более 3 и менее 8 символов");
+      setPasswordError("Пароль должен содержать более 3 и менее 8 символов");
       if (!e.target.value) {
-        setPasswordError("пароль не может быть пустым");
+        setPasswordError("Пароль не может быть пустым");
       }
     } else {
       setPasswordError("");
@@ -91,26 +89,34 @@ const RegistrationForm = (props) => {
           placeholder="login"
           className={styles.registrationInput}
         />
-        {emailError && emailDirty && <div>{emailError}</div>}
-        <input
-          value={email}
-          type="email"
-          name="email"
-          placeholder="email@gmail.com"
-          className={styles.registrationInput}
-          onBlur={(e) => blurHandler(e)}
-          onChange={(e) => emailHandler(e)}
-        />
-        {passwordError && passwordDirty && <div>{passwordError}</div>}
-        <input
-          value={password}
-          type="password"
-          name="password"
-          placeholder="password"
-          className={styles.registrationInput}
-          onBlur={(e) => blurHandler(e)}
-          onChange={(e) => passwordHandler(e)}
-        />
+        <div className={styles.emailWrapper}>
+          <input
+            value={email}
+            type="email"
+            name="email"
+            placeholder="email@gmail.com"
+            className={styles.registrationInput}
+            onBlur={(e) => blurHandler(e)}
+            onChange={(e) => emailHandler(e)}
+          />
+          {emailError && emailDirty && (
+            <div className={styles.error}>{emailError}</div>
+          )}
+        </div>
+        <div className={styles.emailWrapper}>
+          <input
+            value={password}
+            type="password"
+            name="password"
+            placeholder="password"
+            className={styles.registrationInput}
+            onBlur={(e) => blurHandler(e)}
+            onChange={(e) => passwordHandler(e)}
+          />
+          {passwordError && passwordDirty && (
+            <div className={styles.error}>{passwordError}</div>
+          )}
+        </div>
         <input
           type="text"
           placeholder="place"
@@ -129,6 +135,9 @@ const RegistrationForm = (props) => {
       >
         Registr
       </button>
+      <a className={styles.switchButton} onClick={props.showLoginForm}>
+        Login
+      </a>
     </form>
   );
 };

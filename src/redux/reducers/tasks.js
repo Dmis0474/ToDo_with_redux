@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
             isEdit: false,
             id: Math.random().toString(16).slice(2),
             deadline: action.deadline,
-            tasksNow: action.tasksNow
+            tasksNow: action.tasksNow,
           },
         ],
       };
@@ -34,6 +34,7 @@ export default (state = initialState, action) => {
         ...state,
         todos: state.todos.filter((item) => item.id !== action.id),
       };
+
     case actionNames.DONE:
       return {
         ...state,
@@ -71,6 +72,29 @@ export default (state = initialState, action) => {
           return item;
         }),
       };
+
+    case actionNames.SORT:
+      const todosCopy = state.todos.map((a) => a);
+      return {
+        ...state,
+        todos: todosCopy.sort((a, b) =>
+          action.sortMethod === "date"
+            ? a.text > b.text
+              ? 1
+              : -1
+            : a.date > b.date
+            ? 1
+            : -1
+        ),
+      };
+
+    case actionNames.SEARCH:
+      return {
+        ...state,
+        todos: state.todos.filter((item) => item.text.includes(action.searchPhrase)),
+      };
+
+      
     default:
       return state;
   }
