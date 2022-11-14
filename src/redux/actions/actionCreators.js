@@ -1,13 +1,13 @@
 import actionNames from "../actions/actionNames";
 
-export const handleSubmit = (text, deadline, tasksNow, event) => {
+export const handleSubmit = (text, deadline, dateOk, event) => {
   event.preventDefault();
   return (dispatch) => {
     return dispatch({
       type: actionNames.ADD,
       text: text,
       deadline: deadline,
-      tasksNow: tasksNow,
+      dateOk: dateOk
     });
   };
 };

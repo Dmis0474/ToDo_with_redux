@@ -7,12 +7,11 @@ import Form from "../form/form";
 const Layout = () => {
   const [task, setTask] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [tasksNow, setTasksNow] = useState(0);
   const [tasksDone, setTasksDone] = useState(0);
   const [dateNow, setDateNow] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [editDateValue, setEditDateValue] = useState("");
-  
+  const [dateOk, setDateOk] = useState(false);
 
   const todos = useSelector((store) => store.tasks.todos);
 
@@ -35,20 +34,9 @@ const Layout = () => {
     setTask(e.target.value);
   };
 
-  const increaseTaskDone = () => {
-    setTasksDone(tasksDone+1)
-  }
-
-  const reduceTaskNow = () => {
-    setTasksNow(tasksNow-1)
-  }
-
-  const increaseTaskNow = () => {
-    setTasksNow(tasksNow+1)
-  }
-
   const dateListener = (e) => {
     setDeadline(e.target.value.split("-").reverse().join("-"));
+    setDateOk(true)
   };
 
   const inputListener = (event) => {
@@ -59,38 +47,43 @@ const Layout = () => {
     setEditDateValue(event.target.value.split("-").reverse().join("-"));
   };
 
-  const cleanInput = () => {
+  const clearInput = () => {
     setTask("");
+  };
+
+  const checkDate = () => {
+    setDateOk("empty")
+  }
+
+  const taskData = {
+    task: task,
+    deadline: deadline,
+    tasksDone: tasksDone,
+    dateNow: dateNow,
+    dateOk: dateOk
   };
 
   return (
     <div className={styles.layout}>
-      
       <Form
-        task={task}
-        deadline={deadline}
-        tasksNow={tasksNow}
-        tasksDone={tasksDone}
+        taskData={taskData}
         handleChange={handleChange}
-        cleanInput={cleanInput}
-        increaseTaskNow={increaseTaskNow}
-        
+        clearInput={clearInput}
         dateListener={dateListener}
-        dateNow={dateNow}
+        checkDate={checkDate}
       />
       <ul className={styles.tasksList}>
         {todos.map((item) => (
-         <li key={item.id}><Task
-            dateNow={dateNow}
-            item={item}
-            inputValue={inputValue}
-            editDateValue={editDateValue}
-            inputListener={inputListener}
-            editDateListener={editDateListener}
-            increaseTaskDone={increaseTaskDone}
-            reduceTaskNow={reduceTaskNow}
-          />
-          </li> 
+          <li key={item.id}>
+            <Task
+              dateNow={dateNow}
+              item={item}
+              inputValue={inputValue}
+              editDateValue={editDateValue}
+              inputListener={inputListener}
+              editDateListener={editDateListener}
+            />
+          </li>
         ))}
       </ul>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./App.module.css";
 import Layout from "./components/layout/layout.jsx";
 import RegistrationForm from "./components/registrationForm/registrationForm.jsx";
-import LoginForm from "./components/loginForm/liginForm.jsx";
+import LoginForm from "./components/loginForm/loginForm.jsx";
 import { useState } from "react";
 
 let App = (props) => {

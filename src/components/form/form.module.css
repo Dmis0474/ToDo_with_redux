@@ -62,6 +62,7 @@ h2 {
   font-weight: 400;
   color: white;
   font-size: 30px;
+  margin: 0;
 }
 
 .inputWrapper {
@@ -104,7 +105,7 @@ h5 {
   color: rgb(255, 255, 255);
   font-size: 13px;
   z-index: 1;
-  bottom: 1px;
+  top: 40px;
 }
 
 
@@ -112,4 +113,13 @@ h5 {
   position: absolute;
   top: 30px;
   left: 30px;
+}
+
+.counterWrapper {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
 }

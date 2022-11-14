@@ -9,10 +9,12 @@ import {
 
 const initialState = {
   todos: [],
+  todosCopyForSearch:[],
+
 };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionNames.ADD:
+    case "ADD":
       return {
         ...state,
         todos: [
@@ -29,13 +31,13 @@ export default (state = initialState, action) => {
         ],
       };
 
-    case actionNames.DELETE:
+    case "DELETE":
       return {
         ...state,
         todos: state.todos.filter((item) => item.id !== action.id),
       };
 
-    case actionNames.DONE:
+    case "DONE":
       return {
         ...state,
         todos: state.todos.map((item) => {
@@ -45,7 +47,7 @@ export default (state = initialState, action) => {
           return item;
         }),
       };
-    case actionNames.EDIT:
+    case "EDIT":
       return {
         ...state,
         todos: state.todos.map((item) => {
@@ -55,7 +57,7 @@ export default (state = initialState, action) => {
           return item;
         }),
       };
-    case actionNames.EDIT_SUBMIT:
+    case "EDIT_SUBMIT":
       return {
         ...state,
         todos: state.todos.map((item) => {
@@ -73,7 +75,7 @@ export default (state = initialState, action) => {
         }),
       };
 
-    case actionNames.SORT:
+    case "SORT":
       const todosCopy = state.todos.map((a) => a);
       return {
         ...state,
@@ -88,13 +90,19 @@ export default (state = initialState, action) => {
         ),
       };
 
-    case actionNames.SEARCH:
-      return {
-        ...state,
-        todos: state.todos.filter((item) => item.text.includes(action.searchPhrase)),
-      };
-
+    case "SEARCH":
       
+      const unmodifiedTodos = state.todos.filter((a) => a !== action.searchPhrase);
+      console.log(unmodifiedTodos);
+      console.log(action.searchPhrase)
+        return {
+          ...state,
+          todosCopyForSearch: [...state.todos].filter((item) =>
+            item.text.includes(action.searchPhrase))
+          ,
+        };
+      
+
     default:
       return state;
   }
