@@ -1,5 +1,5 @@
 .registrationForm{
-    background-image: url("../../img/registration_background.png");
+    background-image: url("../../assets/registration_background.png");
     margin: 40px;
     padding: 15px 25px 180px 25px;
     display: flex;
@@ -83,7 +83,7 @@ width: 100%;
     position: absolute;
     width: 250px;
     padding: 20px 1px 10px 10px;
-    background-image: url("../../img/messageBackground.png");
+    background-image: url("../../assets/messageBackground.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-family: "Montserrat";
@@ -103,3 +103,10 @@ width: 100%;
   text-decoration: underline;
 }
 
+.showPassword {
+    width: 18px;
+    position: absolute;
+    right: 0px;
+    top: 30%;
+    cursor: pointer;
+  }

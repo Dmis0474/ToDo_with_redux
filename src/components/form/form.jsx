@@ -57,6 +57,7 @@ const Form = (props) => {
   };
 
   return (
+    <div>
     <form className={styles.form} onSubmit={(event) => addTask(event)}>
       <div className={styles.taskWrapper}>
         <h3>
@@ -111,15 +112,17 @@ const Form = (props) => {
         <option value="name">по имени</option>
         <option value="date">по дате</option>
       </select>
-      <form className={styles.searchForm} onSubmit={(e) => searchSubmit(e)}>
-        <input
-          placeholder="search..."
-          value={searchPhrase}
-          onChange={(e) => handleSearch(e)}
-        />
-        <button>поиск</button>
-      </form>
+      
     </form>
+    <form className={styles.searchForm} onSubmit={(e) => searchSubmit(e)}>
+    <input
+      placeholder="search..."
+      value={searchPhrase}
+      onChange={(e) => handleSearch(e)}
+    />
+    <button>поиск</button>
+  </form>
+  </div>
   );
 };
 export default Form;

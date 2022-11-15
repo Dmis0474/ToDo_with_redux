@@ -7,6 +7,7 @@ import axios from "axios";
 const RegistrationForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [emailError, setEmailError] = useState("Email не может быть пустым");
@@ -14,6 +15,8 @@ const RegistrationForm = (props) => {
     "Пароль не может быть пустым"
   );
   const [formValid, setFormValid] = useState(false);
+  const [passwordDoNotMAtch, setPasswordDoNotMAtch] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState([false, false]);
 
   useEffect(() => {
     if (emailError || passwordError) {
@@ -29,20 +32,38 @@ const RegistrationForm = (props) => {
   }, []);
 
   const sendData = (email, password, e) => {
-    console.log("email, pass", email, password);
     e.preventDefault();
-    fetch("http://localhost:3500/register", {
-      method: "POST",
-      body: JSON.stringify({ user: email, pwd: password }),
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => response.json())
-      .then((response) => console.log(response));
+    let result;
+    if (password === passwordConfirm) {
+      fetch("http://localhost:3500/register", {
+        method: "POST",
+        body: JSON.stringify({ user: email, pwd: password }),
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+        .then((response) => response.json())
+        .then(function (response) {
+          let answerArr = response.success.split(" ");
+          result = answerArr[answerArr.length - 1];
+          console.log(result);
+          if(result=== "created!") {
+            props.showLoginForm()
+          }
+        });
+        
+    } else {
+      setPasswordDoNotMAtch("Пароли не совпадают ;(");
+    }
   };
 
-  function getData(e) {
-    e.preventDefault();
+ const doPasswordVisible = (i) => {
+   
+    if (i === 0) {
+      setPasswordVisible([!passwordVisible[0], passwordVisible[1]]);
+    }
+    if (i === 1) {
+      setPasswordVisible([passwordVisible[0], !passwordVisible[1]]);
+    }
   }
 
   const emailHandler = (e) => {
@@ -56,8 +77,8 @@ const RegistrationForm = (props) => {
     }
   };
 
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
+  const passwordHandler = (e, method) => {
+    method(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 8) {
       setPasswordError("Пароль должен содержать более 3 и менее 8 символов");
       if (!e.target.value) {
@@ -103,38 +124,60 @@ const RegistrationForm = (props) => {
             <div className={styles.error}>{emailError}</div>
           )}
         </div>
+
         <div className={styles.emailWrapper}>
           <input
             value={password}
-            type="password"
+            type={passwordVisible[0] ? "text" : "password"}
             name="password"
             placeholder="password"
             className={styles.registrationInput}
             onBlur={(e) => blurHandler(e)}
-            onChange={(e) => passwordHandler(e)}
+            onChange={(e) => passwordHandler(e, setPassword)}
           />
           {passwordError && passwordDirty && (
             <div className={styles.error}>{passwordError}</div>
           )}
+          <img
+            src="showPassword.png"
+            className={styles.showPassword}
+            onClick={() => doPasswordVisible(0)}
+          />
         </div>
-        <input
-          type="text"
-          placeholder="place"
-          className={styles.registrationInput}
-        />
-        <input
-          type="text"
-          placeholder="time"
-          className={styles.registrationInput}
-        />
+        <div className={styles.emailWrapper}>
+          <input
+            value={passwordConfirm}
+            type={passwordVisible[1] ? "text" : "password"}
+            name="password"
+            placeholder="password confirm"
+            className={styles.registrationInput}
+            onBlur={(e) => blurHandler(e)}
+            onChange={(e) => passwordHandler(e, setPasswordConfirm)}
+          />
+          {passwordError && passwordDirty && (
+            <div className={styles.error}>{passwordError}</div>
+          )}
+          <img
+            src="showPassword.png"
+            className={styles.showPassword}
+            onClick={() => doPasswordVisible( 1)}
+          />
+        </div>
       </div>
-      <button
-        className={styles.registrationButton}
-        disabled={!formValid}
-        onClick={(e) => sendData(email, password, e)}
-      >
-        Registr
-      </button>
+      <div className={styles.registrationButtonWrapper}>
+        <button
+          className={styles.registrationButton}
+          disabled={!formValid}
+          onClick={(e) => sendData(email, password, e)}
+        >
+          Registr
+        </button>
+        {passwordDoNotMAtch ? (
+          <div className={`${styles.error} ${styles.mismatch}`}>
+            {passwordDoNotMAtch}
+          </div>
+        ) : null}
+      </div>
       <a className={styles.switchButton} onClick={props.showLoginForm}>
         Login
       </a>

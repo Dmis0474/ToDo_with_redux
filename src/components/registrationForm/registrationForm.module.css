@@ -1,5 +1,5 @@
 .registrationForm {
-  background-image: url("../../img/registration_background.png");
+  background-image: url("../../assets/registration_background.png");
   margin: 40px;
   padding: 15px 25px 180px 25px;
   display: flex;
@@ -52,6 +52,14 @@
   background-color: rgb(139, 135, 135);
 }
 
+.registrationButtonWrapper{
+  
+  width: 100%;
+  position: relative;
+}
+
+
+
 .registrationButton {
   width: 100%;
   min-height: 40px;
@@ -66,15 +74,23 @@
   margin-top: 10px;
 }
 
+
 .emailWrapper{
     position: relative;
     width: 100%;
+}
+.showPassword {
+  width: 18px;
+  position: absolute;
+  right: 0px;
+  top: 30%;
+  cursor: pointer;
 }
 .error {
     position: absolute;
     width: 250px;
     padding: 20px 1px 10px 10px;
-    background-image: url("../../img/messageBackground.png");
+    background-image: url("../../assets/messageBackground.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-family: "Montserrat";
@@ -83,6 +99,11 @@
     font-size: 13px;
     z-index: 1;
     top: 16px
+  }
+
+  .mismatch {
+    position: absolute;
+    top: -20px;
   }
 
 .switchButton {

@@ -20,7 +20,7 @@
 }
 
 .delete {
-  background: url(../../img/basket.png) 50% 50% no-repeat;
+  background: url(../../assets/basket.png) 50% 50% no-repeat;
   background-size: contain;
   width: 30px;
   height: 30px;
@@ -33,7 +33,7 @@
 }
 
 .done {
-    background: url(../../img/done.png) 50% 50% no-repeat;
+    background: url(../../assets/done.png) 50% 50% no-repeat;
     background-size: contain;
     width: 30px;
     height: 30px;
@@ -45,7 +45,7 @@
     border-radius: 50%; 
 }
 .edit {
-    background: url(../../img/edit.png) 50% 50% no-repeat;
+    background: url(../../assets/edit.png) 50% 50% no-repeat;
     background-size: contain;
     width: 30px;
     height: 30px;
@@ -57,7 +57,7 @@
     border-radius: 50%; 
 }
 .save {
-    background: url(../../img/save.png) 50% 50% no-repeat;
+    background: url(../../assets/save.png) 50% 50% no-repeat;
     background-size: contain;
     width: 30px;
     height: 30px;

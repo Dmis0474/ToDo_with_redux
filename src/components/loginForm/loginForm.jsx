@@ -14,6 +14,8 @@ const LoginForm = (props) => {
     "пароль не может быть пустым"
   );
   const [formValid, setFormValid] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false)
+
 
   useEffect(() => {
     if (emailError || passwordError) {
@@ -38,8 +40,7 @@ const LoginForm = (props) => {
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
-    const re =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const re =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (re.test(String(e.target.value).toLowerCase())) {
       setEmailError("");
     } else {
@@ -49,7 +50,7 @@ const LoginForm = (props) => {
 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
-    if (e.target.value.length < 3 || e.target.value.length > 8) {
+    if (e.target.value.length < 3 || e.target.value.length > 18) {
       setPasswordError("пароль должен содержать более 3 и менее 8 символов");
       if (!e.target.value) {
         setPasswordError("пароль не может быть пустым");
@@ -98,7 +99,7 @@ const LoginForm = (props) => {
         <div className={styles.emailWrapper}>
           <input
             value={password}
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             name="password"
             placeholder="password"
             className={styles.registrationInput}
@@ -108,17 +109,13 @@ const LoginForm = (props) => {
           {passwordError && passwordDirty && (
             <div className={styles.error}>{passwordError}</div>
           )}
+           <img
+            src="showPassword.png"
+            className={styles.showPassword}
+            onClick={()=>setPasswordVisible(!passwordVisible) }
+          />
         </div>
-        {/* <input
-          type="text"
-          placeholder="place"
-          className={styles.registrationInput}
-        />
-        <input
-          type="text"
-          placeholder="time"
-          className={styles.registrationInput}
-        /> */}
+        
       </div>
       <button
         className={styles.registrationButton}
