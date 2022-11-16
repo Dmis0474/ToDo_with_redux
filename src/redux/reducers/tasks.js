@@ -5,12 +5,12 @@ import {
   taskDone,
   editTasks,
   editSubmit,
+  searchItem
 } from "../actions/actionCreators";
 
 const initialState = {
   todos: [],
-  todosCopyForSearch:[],
-
+  arrayWithSearch: [],
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -29,6 +29,7 @@ export default (state = initialState, action) => {
             tasksNow: action.tasksNow,
           },
         ],
+        arrayWithSearch: []
       };
 
     case "DELETE":
@@ -91,15 +92,11 @@ export default (state = initialState, action) => {
       };
 
     case "SEARCH":
-      
-      const unmodifiedTodos = state.todos.filter((a) => a !== action.searchPhrase);
-      console.log(unmodifiedTodos);
-      console.log(action.searchPhrase)
+      state.arrayWithSearch = []
         return {
           ...state,
-          todosCopyForSearch: [...state.todos].filter((item) =>
-            item.text.includes(action.searchPhrase))
-          ,
+          arrayWithSearch: [...state.arrayWithSearch, ...state.todos.filter((element) => element.text.includes(action.searchPhrase))]
+         
         };
       
 

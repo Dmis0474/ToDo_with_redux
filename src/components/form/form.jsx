@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   handleSubmit,
   handleSort,
-  searchItem,
+  
 } from "../../redux/actions/actionCreators";
 
 const Form = (props) => {
@@ -13,21 +13,14 @@ const Form = (props) => {
   const dispatch = useDispatch();
 
   const [sortMethod, setSortMethod] = useState("");
-  const [searchPhrase, setSearchPhrase] = useState("");
+  
 
   const sortTasks = (e) => {
     setSortMethod(e.target.value);
     dispatch(handleSort(sortMethod));
   };
 
-  const handleSearch = (e) => {
-    setSearchPhrase(e.target.value);
-  };
-
-  const searchSubmit = (e) => {
-    e.preventDefault();
-    dispatch(searchItem(searchPhrase));
-  }
+ 
 
   const addTask = (event) => {
     event.preventDefault();
@@ -114,11 +107,11 @@ const Form = (props) => {
       </select>
       
     </form>
-    <form className={styles.searchForm} onSubmit={(e) => searchSubmit(e)}>
+    <form className={styles.searchForm} onSubmit={(e) => props.searchSubmit(e)}>
     <input
       placeholder="search..."
-      value={searchPhrase}
-      onChange={(e) => handleSearch(e)}
+      value={props.searchPhrase}
+      onChange={(e) => props.handleSearch(e)}
     />
     <button>поиск</button>
   </form>

@@ -178,7 +178,7 @@ const RegistrationForm = (props) => {
           </div>
         ) : null}
       </div>
-      <a className={styles.switchButton} onClick={props.showLoginForm}>
+      <a className={styles.switchButton} onClick={() => props.changeForm(('login'))}>
         Login
       </a>
     </form>

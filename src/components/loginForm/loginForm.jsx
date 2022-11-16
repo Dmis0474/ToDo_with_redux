@@ -119,12 +119,12 @@ const LoginForm = (props) => {
       </div>
       <button
         className={styles.registrationButton}
-        disabled={!formValid}
+        // disabled={!formValid}
         onClick={(e) => authUser(email, password, e)}
       >
         Login
       </button>
-      <a className={styles.switchButton} onClick={props.showRegistrationForm}>Registration</a>
+      <a className={styles.switchButton} onClick={() => props.changeForm('registr')}>Registration</a>
     </form>
   );
 };

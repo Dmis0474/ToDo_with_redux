@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./layout.module.css";
 import Task from "../task/task";
 import Form from "../form/form";
+import { searchItem } from "../../redux/actions/actionCreators";
 
 const Layout = () => {
   const [task, setTask] = useState("");
@@ -12,8 +13,12 @@ const Layout = () => {
   const [inputValue, setInputValue] = useState("");
   const [editDateValue, setEditDateValue] = useState("");
   const [dateOk, setDateOk] = useState(false);
+  const [searchPhrase, setSearchPhrase] = useState("");
+
+  const dispatch = useDispatch();
 
   const todos = useSelector((store) => store.tasks.todos);
+  const arrayWithSearch = useSelector((store) => store.tasks.arrayWithSearch);
 
   useEffect(() => {
     getDates();
@@ -36,7 +41,7 @@ const Layout = () => {
 
   const dateListener = (e) => {
     setDeadline(e.target.value.split("-").reverse().join("-"));
-    setDateOk(true)
+    setDateOk(true);
   };
 
   const inputListener = (event) => {
@@ -52,15 +57,25 @@ const Layout = () => {
   };
 
   const checkDate = () => {
-    setDateOk("empty")
-  }
+    setDateOk("empty");
+  };
+
+  const handleSearch = (e) => {
+    setSearchPhrase(e.target.value);
+    dispatch(searchItem(searchPhrase));
+  };
+
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(searchItem(searchPhrase));
+  };
 
   const taskData = {
     task: task,
     deadline: deadline,
     tasksDone: tasksDone,
     dateNow: dateNow,
-    dateOk: dateOk
+    dateOk: dateOk,
   };
 
   return (
@@ -71,8 +86,27 @@ const Layout = () => {
         clearInput={clearInput}
         dateListener={dateListener}
         checkDate={checkDate}
+        searchPhrase={searchPhrase}
+        handleSearch={handleSearch}
+        searchSubmit={searchSubmit}
       />
-      <ul className={styles.tasksList}>
+      {searchPhrase ? (
+        <ul className={styles.tasksList}>
+        {arrayWithSearch.map((item) => (
+          <li key={item.id}>
+            <Task
+              dateNow={dateNow}
+              item={item}
+              inputValue={inputValue}
+              editDateValue={editDateValue}
+              inputListener={inputListener}
+              editDateListener={editDateListener}
+            />
+          </li>
+        ))}
+      </ul>
+      ) : (
+        <ul className={styles.tasksList}>
         {todos.map((item) => (
           <li key={item.id}>
             <Task
@@ -86,6 +120,9 @@ const Layout = () => {
           </li>
         ))}
       </ul>
+      )}
+      
+      
     </div>
   );
 };

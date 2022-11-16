@@ -8,19 +8,15 @@ import { useState } from "react";
 let App = (props) => {
   const [form, setForm] = useState("registr");
 
-  const showRegistrationForm = () => {
-    setForm('registr')
-  }
-
-  const showLoginForm = () => {
-    setForm('login')
+  
+  const changeForm = (formName) => {
+    setForm(formName)
   }
 
   return (
     <div className={styles.App}>
-      {form === 'registr' ? <RegistrationForm showLoginForm={showLoginForm} />: <LoginForm showRegistrationForm={showRegistrationForm}/>}
-      
-      
+      {form === 'registr' ? <RegistrationForm changeForm={changeForm} />: <LoginForm changeForm={changeForm}/>}
+
       {/* <Layout /> */}
     </div>
   );
