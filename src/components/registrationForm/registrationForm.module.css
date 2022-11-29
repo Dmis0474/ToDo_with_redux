@@ -1,0 +1,118 @@
+.registrationForm {
+  background-image: url("../../assets/registration_background.png");
+  margin: 40px;
+  padding: 15px 25px 180px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 5px 5px 155px rgb(54, 116, 187);
+}
+
+.header {
+  font-family: "Montserrat";
+  font-weight: 400;
+  color: white;
+  font-size: 15px;
+  margin-left: 115px;
+  margin-right: 115px;
+}
+
+.img {
+  width: 40px;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  z-index: 0;
+}
+
+.registrationInput {
+  background-color: rgb(0, 0, 0, 0%);
+  border: none;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  color: white;
+  outline: none;
+  width: 100%;
+}
+
+.registrationInput:focus {
+  border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+.registrationInput::placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.registrationButton:disabled {
+  background-color: rgb(139, 135, 135);
+}
+
+.registrationButtonWrapper{
+  
+  width: 100%;
+  position: relative;
+}
+
+
+
+.registrationButton {
+  width: 100%;
+  min-height: 40px;
+  font-family: "Montserrat";
+  font-weight: 400;
+  color: white;
+  font-size: 13px;
+  text-transform: uppercase;
+  background-color: rgb(11, 116, 202);
+  border: 0px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.emailWrapper{
+    position: relative;
+    width: 100%;
+}
+.showPassword {
+  width: 18px;
+  position: absolute;
+  right: 0px;
+  top: 30%;
+  cursor: pointer;
+}
+.error {
+    position: absolute;
+    width: 250px;
+    padding: 20px 1px 10px 10px;
+    background-image: url("../../assets/messageBackground.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-family: "Montserrat";
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+    z-index: 1;
+    top: 16px
+  }
+
+  .mismatch {
+    position: absolute;
+    top: -20px;
+  }
+
+.switchButton {
+  font-family: "Montserrat";
+  font-weight: 400;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+

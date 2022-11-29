@@ -1,49 +1,121 @@
-import React from "react";
-
-import EditForm from "../editForm/editForm";
+import React, { useState } from "react";
 import styles from "./form.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleSubmit,
+  handleSort,
+  
+} from "../../redux/actions/actionCreators";
 
 const Form = (props) => {
+  const todos = useSelector((store) => store.tasks.todos);
+
+  const dispatch = useDispatch();
+
+  const [sortMethod, setSortMethod] = useState("");
+  
+
+  const sortTasks = (e) => {
+    setSortMethod(e.target.value);
+    dispatch(handleSort(sortMethod));
+  };
+
+ 
+
+  const addTask = (event) => {
+    event.preventDefault();
+    if (props.taskData.task && props.taskData.dateOk) {
+      dispatch(
+        handleSubmit(
+          props.taskData.task,
+          props.taskData.deadline,
+          props.taskData.dateOk,
+          event
+        )
+      );
+      props.clearInput();
+    } else if (event.key === "Enter") {
+      dispatch(
+        handleSubmit(
+          props.taskData.task,
+          props.taskData.deadline,
+          props.taskData.dateOk
+        )
+      );
+      props.clearInput();
+    } else {
+      props.checkDate();
+      return null;
+    }
+  };
+
   return (
-    <div id={props.task.id}>
-      {props.updateTask ? (
-        <EditForm
-          task={props.task}
-          editMode={props.editMode}
-          dateNow={props.dateNow}
-          editDateListener={props.editDateListener}
-          inputListener={props.inputListener}
-          editSubmit={props.editSubmit}
-          editTasks={props.editTasks}
-          taskDone={props.taskDone}
-          handleDelete={props.handleDelete}
-          edtiableTaskId={props.edtiableTaskId}
-        />
-      ) : (
-        <form
-          className={styles.form}
-          onSubmit={props.handleSubmit}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") props.handleSubmit(e);
-          }}
-        >
+    <div>
+    <form className={styles.form} onSubmit={(event) => addTask(event)}>
+      <div className={styles.taskWrapper}>
+        <h3>
+          Your
+          <br />
+          Things
+        </h3>
+      </div>
+      <div className={styles.taskCounter}>
+        <div className={styles.counterWrapper}>
+          <h2>{todos.length}</h2>
+          <p>active</p>
+        </div>
+        <div className={styles.counterWrapper}>
+          <h2>{todos.filter((todo) => todo.isDone).length}</h2>
+          <p>done</p>
+        </div>
+      </div>
+      <div className={styles.taskArea}>
+        <div className={styles.inputWrapper}>
+          <h5>todo:</h5>
           <textarea
             name="task"
-            value={props.task}
+            value={props.taskData.task}
             placeholder="Введите следующее дело..."
             onChange={props.handleChange}
+            required
+            className={styles.taskInput}
           ></textarea>
-          <h4 style={{ margin: 0 }}>Дата завершения</h4>
+        </div>
+        <div className={styles.inputWrapper}>
+          <h5>deadline:</h5>
           <input
+            name="forDate"
             type="date"
-            defaultValue={props.dateNow}
+            defaultValue={props.taskData.dateNow}
             onChange={props.dateListener}
-            min={props.dateNow}
+            min={props.taskData.dateNow}
+            required
+            className={styles.taskInput}
           />
-          <button>Добавить дело!</button>
-        </form>
-      )}
-    </div>
+          {props.taskData.dateOk === "empty" ? (
+            <div className={styles.error}>поле не заполнено!</div>
+          ) : null}
+        </div>
+
+        <img src="" />
+        <button className={styles.add}></button>
+      </div>
+      <select onChange={(event) => sortTasks(event)}>
+        <option value="">сортировка по:</option>
+        <option value="name">по имени</option>
+        <option value="date">по дате</option>
+      </select>
+      
+    </form>
+    <form className={styles.searchForm} onSubmit={(e) => props.searchSubmit(e)}>
+    <input
+      placeholder="search..."
+      value={props.searchPhrase}
+      onChange={(e) => props.handleSearch(e)}
+    />
+    <button>поиск</button>
+  </form>
+  </div>
   );
 };
 export default Form;

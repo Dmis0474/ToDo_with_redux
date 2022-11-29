@@ -1,0 +1,16 @@
+.layout{
+    background-color: rgb(245, 239, 239);
+    margin-top: 40px;
+    max-height: 780px;
+    box-shadow: 5px 5px 155px  rgb(54, 116, 187);
+}
+.tasksList {
+    overflow:auto;
+    max-height: 450px;
+}
+
+ul {
+    margin-top: 80px;
+}
+
+

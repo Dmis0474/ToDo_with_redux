@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./layout.module.css";
 import Task from "../task/task";
 import Form from "../form/form";
+import { searchItem } from "../../redux/actions/actionCreators";
 
 const Layout = () => {
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [editMode, setEditMode] = useState(false);
-  const [edtiableTaskId, setEdtiableTaskId] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [tasksDone, setTasksDone] = useState(0);
   const [dateNow, setDateNow] = useState("");
-  const [taskDoneStyle, setTaskDoneStyle] = useState(false);
-
+  const [inputValue, setInputValue] = useState("");
   const [editDateValue, setEditDateValue] = useState("");
+  const [dateOk, setDateOk] = useState(false);
+  const [searchPhrase, setSearchPhrase] = useState("");
+
+  const dispatch = useDispatch();
+
+  const todos = useSelector((store) => store.tasks.todos);
+  const arrayWithSearch = useSelector((store) => store.tasks.arrayWithSearch);
+
   useEffect(() => {
     getDates();
   }, []);
 
   const getDates = () => {
+    let day =
+      new Date().getDate() <= 9
+        ? `0${new Date().getDate()}`
+        : new Date().getDate();
+    console.log(day);
     setDateNow(
-      `${new Date().getFullYear()}-${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}`
+      `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${day}`
     );
   };
 
@@ -30,105 +39,90 @@ const Layout = () => {
     setTask(e.target.value);
   };
 
-  const handleDelete = (e) => {
-    setTasks(
-      tasks.filter((task) => task.id !== e.target.parentNode.getAttribute("id"))
-    );
-  };
-
-  const taskDone = (e) => {
-    const modifiedTasks = tasks.map((task) =>
-      task.id === e.target.parentNode.getAttribute("id")
-        ? { ...task, done: true }
-        : { ...task }
-    );
-    setTasks([...modifiedTasks]);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (task) {
-      const generatedId = Math.random().toString(16).slice(2);
-      const newTask = {
-        id: generatedId,
-        text: task,
-        deadline: deadline,
-        done: false,
-      };
-      setTasks([...tasks, newTask]);
-    }
-    setTask("");
-    setDeadline("");
-  };
-
-  const editSubmit = (e) => {
-    const editedTasks = tasks.map((task) =>
-      task.id === e.target.parentNode.getAttribute("id")
-        ? {
-            ...task,
-            text: inputValue || task.text,
-            deadline: editDateValue || task.deadline,
-          }
-        : { ...task }
-    );
-    setTasks(editedTasks);
-    setEditMode(false);
-    console.log(tasks);
-  };
-
-  const editTasks = (e) => {
-    setEditMode(!editMode);
-    setEdtiableTaskId(e.target.parentNode.getAttribute("id"));
-    console.log(tasks);
+  const dateListener = (e) => {
+    setDeadline(e.target.value.split("-").reverse().join("-"));
+    setDateOk(true);
   };
 
   const inputListener = (event) => {
     setInputValue(event.target.value);
   };
 
-  const dateListener = (e) => {
-    setDeadline(e.target.value.split("-").reverse().join("-"));
-  };
-
   const editDateListener = (event) => {
     setEditDateValue(event.target.value.split("-").reverse().join("-"));
-    console.log(`11111:${editDateValue}`);
+  };
+
+  const clearInput = () => {
+    setTask("");
+  };
+
+  const checkDate = () => {
+    setDateOk("empty");
+  };
+
+  const handleSearch = (e) => {
+    setSearchPhrase(e.target.value);
+    dispatch(searchItem(searchPhrase));
+  };
+
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(searchItem(searchPhrase));
+  };
+
+  const taskData = {
+    task: task,
+    deadline: deadline,
+    tasksDone: tasksDone,
+    dateNow: dateNow,
+    dateOk: dateOk,
   };
 
   return (
-    <div>
-      <h3>Введите следующее запланированное действие:</h3>
+    <div className={styles.layout}>
       <Form
-        dateNow={dateNow}
-        deadline={deadline}
-        updateTask={false}
-        task={task}
-        key={task.id}
+        taskData={taskData}
         handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        clearInput={clearInput}
         dateListener={dateListener}
+        checkDate={checkDate}
+        searchPhrase={searchPhrase}
+        handleSearch={handleSearch}
+        searchSubmit={searchSubmit}
       />
-
-      <div>
-        {tasks.map((task, i) => {
-          return (
+      {searchPhrase ? (
+        <ul className={styles.tasksList}>
+        {arrayWithSearch.map((item) => (
+          <li key={item.id}>
             <Task
-              task={task}
-              key={task.text + i}
-              editMode={editMode}
-              edtiableTaskId={edtiableTaskId}
-              handleDelete={handleDelete}
-              taskDone={taskDone}
-              editSubmit={editSubmit}
-              editTasks={editTasks}
-              inputListener={inputListener}
-              dateListener={dateListener}
               dateNow={dateNow}
+              item={item}
+              inputValue={inputValue}
+              editDateValue={editDateValue}
+              inputListener={inputListener}
               editDateListener={editDateListener}
             />
-          );
-        })}
-      </div>
+          </li>
+        ))}
+      </ul>
+      ) : (
+        <ul className={styles.tasksList}>
+        {todos.map((item) => (
+          <li key={item.id}>
+            <Task
+              dateNow={dateNow}
+              item={item}
+              inputValue={inputValue}
+              editDateValue={editDateValue}
+              inputListener={inputListener}
+              editDateListener={editDateListener}
+            />
+          </li>
+        ))}
+      </ul>
+      )}
+      
+      
     </div>
   );
 };

@@ -1,30 +1,27 @@
 import React from "react";
-import Form from "../form/form";
+import EditForm from "../editForm/editForm";
+import style from "../task/task.module.css"
 
 const Task = (props) => {
   return (
-    <div id={props.task.id}>
-      <p>Дата завершения: {props.task.deadline}</p>
-      {props.task.done ? (
-        <p style={{ textDecorationLine: "line-through" }}>
-          Задача: {props.task.text}
-        </p>
-      ) : (
-        <p>Задача: {props.task.text}</p>
-      )}
-      <Form
-        updateTask={true}
-        task={props.task}
-        key={props.task.id}
-        editMode={props.editMode}
-        editTasks={props.editTasks}
-        inputListener={props.inputListener}
-        edtiableTaskId={props.edtiableTaskId}
-        editSubmit={props.editSubmit}
-        taskDone={props.taskDone}
-        handleDelete={props.handleDelete}
+    <div id={props.item.id} className={style.task}>
+      <div className={style.info}>
+        <h4 className={style.taskText}
+        style={{
+          textDecorationLine: props.item.isDone ? "line-through" : "",
+        }}
+        >{props.item.text}</h4>
+        <h5 className={style.taskDate}>{props.item.deadline} </h5>
+      </div>
+      <EditForm
+        increaseTaskDone={props.increaseTaskDone}
+        reduceTaskNow={props.reduceTaskNow}
         dateNow={props.dateNow}
+        item={props.item}
+        inputListener={props.inputListener}
         editDateListener={props.editDateListener}
+        inputValue={props.inputValue}
+        editDateValue={props.editDateValue}
       />
     </div>
   );
